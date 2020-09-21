@@ -1,0 +1,18 @@
+.node {
+  width: 30px;
+  height: 30px;
+  outline: 1px solid grey;
+  display: inline-block;
+}
+.node-start {
+  background-color: red;
+}
+.node-finish {
+  background-color: black;
+}
+.node-onPath {
+  background-color: yellow;
+}
+.node-visited{
+  background-color: blue;
+}
