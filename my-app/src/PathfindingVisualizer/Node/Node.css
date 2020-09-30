@@ -8,11 +8,53 @@
   background-color: red;
 }
 .node-finish {
-  background-color: black;
+  background-color: green;
 }
 .node-onPath {
-  background-color: yellow;
+  animation-name : shortestPath;
+  animation-duration: 1.5s;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 .node-visited{
-  background-color: blue;
+  animation-name : visited;
+  animation-duration: 1.5s;
+  animation-direction: alternate;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+}
+.node-wall{
+  background-color: black;
+}
+
+@keyframes shortestPath{
+  0% {
+    transform: scale(0.6);
+    background-color: rgb(255,254,106);
+  }
+  50%{
+    transform: scale(1.2);
+    background-color: rgb(255,254,106);
+  }
+  100%{
+    transform: scale(1);
+    background-color: rgb(255,254,106);
+  }
+}
+@keyframes visited{
+  0% {
+    transform: scale(0.6);
+    background-color: rgb(106, 133, 254);
+  }
+  50%{
+    transform: scale(1.2);
+    background-color: rgb(106, 128, 255);
+  }
+  100%{
+    transform: scale(1);
+    background-color: rgb(106, 116, 255);
+  }
 }

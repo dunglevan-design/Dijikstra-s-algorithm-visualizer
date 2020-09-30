@@ -1,15 +1,17 @@
 import React from "react";
 
 export default function Dijkstra(startNode, endNode, grid) {
+  const numberofrows = grid.length;
+  const numberofcols = grid[0].length;
   var visited = [];
   var unvisited = [];
   const distance = [];
   var found = false;
   const visitedNodeinOrder = [];
-  for (let row = 0; row < 20; row++) {
+  for (let row = 0; row < numberofrows; row++) {
     const currentrow = [];
     const visitedrow = [];
-    for (let col = 0; col < 50; col++) {
+    for (let col = 0; col < numberofcols; col++) {
       currentrow.push(Infinity);
       visitedrow.push(false);
       unvisited.push(grid[row][col]);
@@ -20,15 +22,19 @@ export default function Dijkstra(startNode, endNode, grid) {
   distance[startNode.row][startNode.col] = 0;
   while (unvisited.length > 0 && !found) {
     const currentNode = findCurrentNodeWithMinDist(unvisited,distance);
+    if(!currentNode) break;
     visitedNodeinOrder.push(currentNode);
     if(currentNode === endNode) found = true;
-    const Neighbors = FindNeighbors(currentNode, visited);
+    const Neighbors = FindNeighbors(currentNode, visited, numberofrows, numberofcols);
     Neighbors.forEach((NeighborNode) => {
-      const NewTentativeDistance = distance[currentNode.row][currentNode.col] + 1
-        if (distance[NeighborNode.row][NeighborNode.col] > NewTentativeDistance){
-            distance[NeighborNode.row][NeighborNode.col] = NewTentativeDistance;
-            grid[NeighborNode.row][NeighborNode.col].previousNode = currentNode;
-        }         
+        if(!grid[NeighborNode.row][NeighborNode.col].isWall){
+            const NewTentativeDistance = distance[currentNode.row][currentNode.col] + 1
+            if (distance[NeighborNode.row][NeighborNode.col] > NewTentativeDistance){
+                distance[NeighborNode.row][NeighborNode.col] = NewTentativeDistance;
+                grid[NeighborNode.row][NeighborNode.col].previousNode = currentNode;
+            }         
+        }
+    
     });
     visited[currentNode.row][currentNode.col] = true;
     unvisited = unvisited.filter(node => ((node.row !== currentNode.row) || (node.col !== currentNode.col)))
@@ -49,7 +55,7 @@ function findCurrentNodeWithMinDist(Nodes,distance){
 
 }
 
-function FindNeighbors(node, visited) {
+function FindNeighbors(node, visited, numberofrows, numberofcols) {
   const r = node.row,
     c = node.col;
   const Neighbors = [];
@@ -61,14 +67,15 @@ function FindNeighbors(node, visited) {
      Neighbors.push({ row: r, col: c - 1 })
   }
 
-  if(((r + 1) <= 19) && !visited[r + 1][c]){
+  if(((r + 1) <= numberofrows-1) && !visited[r + 1][c]){
      Neighbors.push({ row: r + 1, col: c })
   }
-  if(((c + 1) <= 49) && !visited[r][c + 1]){
+  if(((c + 1) <= numberofcols-1) && !visited[r][c + 1]){
      Neighbors.push({ row: r, col: c + 1 })
   }
   return Neighbors;
 }
+
 
 //Testing Dijkstra
 // const number = 5;
